@@ -14,7 +14,7 @@ import java.util.List;
  */
 class XsltTransformerStack {
 
-    private List<XsltTransformer> xsltTransformers = new ArrayList<>();
+    private final List<XsltTransformer> xsltTransformers = new ArrayList<>();
 
     private Destination destination;
 

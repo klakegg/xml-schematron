@@ -10,21 +10,21 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author erlend
  */
-class SaxonHelper {
+interface SaxonHelper {
 
-    public static InputStream xdmToInputStream(XdmDestination xdmDestination) {
+    static InputStream xdmToInputStream(XdmDestination xdmDestination) {
         return xdmToInputStream(xdmDestination.getXdmNode());
     }
 
-    public static InputStream xdmToInputStream(XdmNode xdmNode) {
+    static InputStream xdmToInputStream(XdmNode xdmNode) {
         return new ByteArrayInputStream(xdmToBytes(xdmNode));
     }
 
-    public static byte[] xdmToBytes(XdmDestination xdmDestination) {
+    static byte[] xdmToBytes(XdmDestination xdmDestination) {
         return xdmToBytes(xdmDestination.getXdmNode());
     }
 
-    public static byte[] xdmToBytes(XdmNode xdmNode) {
+    static byte[] xdmToBytes(XdmNode xdmNode) {
         return xdmNode.toString().getBytes(StandardCharsets.UTF_8);
     }
 }

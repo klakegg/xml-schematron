@@ -6,8 +6,6 @@ import net.klakegg.xml.schematron.lang.SchematronException;
 import net.sf.saxon.s9api.*;
 
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -51,7 +49,9 @@ public class SchematronValidator implements SchematronValidatorConfig {
             throws IOException, SchematronException {
         try {
             XsltTransformerStack xsltTransformerStack = new XsltTransformerStack(destination);
+
             xsltTransformerStack.append(getXsltExecutable(schFile));
+
             xsltTransformerStack.transform(new StreamSource(properties.get(FOLDER).resolve(xmlFile).toFile()));
         } catch (SaxonApiException e) {
             throw new SchematronException(e.getMessage(), e);
@@ -61,11 +61,11 @@ public class SchematronValidator implements SchematronValidatorConfig {
     private XsltExecutable getXsltExecutable(String file) throws IOException, SchematronException {
         if (!xsltExecutables.containsKey(file)) {
             try {
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                schematronCompiler.compile(properties.get(FOLDER).resolve(file), byteArrayOutputStream);
+                XdmDestination destination = new XdmDestination();
+                schematronCompiler.compile(properties.get(FOLDER).resolve(file), destination);
 
-                xsltExecutables.put(file, xsltCompiler.compile(new StreamSource(
-                        new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))));
+                xsltExecutables.put(file,
+                        xsltCompiler.compile(new StreamSource(SaxonHelper.xdmToInputStream(destination))));
             } catch (SaxonApiException e) {
                 throw new SchematronException(e.getMessage(), e);
             }
