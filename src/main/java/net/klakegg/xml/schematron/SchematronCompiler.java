@@ -2,7 +2,6 @@ package net.klakegg.xml.schematron;
 
 import net.klakegg.commons.builder.Builder;
 import net.klakegg.commons.builder.Properties;
-import net.klakegg.xml.schematron.lang.SchematronException;
 import net.sf.saxon.s9api.*;
 
 import javax.xml.transform.stream.StreamSource;
@@ -53,11 +52,7 @@ public class SchematronCompiler implements SchematronCompilerConfig {
     }
 
     public void compile(File file, OutputStream outputStream) throws IOException, SchematronException {
-        XdmDestination destination = new XdmDestination();
-
-        compile(file, destination);
-
-        outputStream.write(SaxonHelper.xdmToBytes(destination));
+        compile(file, properties.get(PROCESSOR).newSerializer(outputStream));
     }
 
     public void compile(Path path, Destination destination) throws SchematronException {

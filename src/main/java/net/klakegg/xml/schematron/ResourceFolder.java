@@ -1,4 +1,4 @@
-package net.klakegg.xml.schematron.api;
+package net.klakegg.xml.schematron;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -37,7 +37,7 @@ public interface ResourceFolder extends URIResolver {
 
         private String prefix;
 
-        public ClassPathResourceFolder(String prefix) {
+        private ClassPathResourceFolder(String prefix) {
             this.prefix = prefix;
         }
 
@@ -59,7 +59,7 @@ public interface ResourceFolder extends URIResolver {
 
         private Path folder;
 
-        public PathResourceFolder(Path folder) {
+        private PathResourceFolder(Path folder) {
             this.folder = folder;
         }
 

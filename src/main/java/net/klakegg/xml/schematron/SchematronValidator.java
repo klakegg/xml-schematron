@@ -2,7 +2,6 @@ package net.klakegg.xml.schematron;
 
 import net.klakegg.commons.builder.Builder;
 import net.klakegg.commons.builder.Properties;
-import net.klakegg.xml.schematron.lang.SchematronException;
 import net.sf.saxon.s9api.*;
 
 import javax.xml.transform.stream.StreamSource;
@@ -38,11 +37,7 @@ public class SchematronValidator implements SchematronValidatorConfig {
 
     public void validate(String schFile, String xmlFile, OutputStream outputStream)
             throws IOException, SchematronException {
-        XdmDestination destination = new XdmDestination();
-
-        validate(schFile, xmlFile, destination);
-
-        outputStream.write(SaxonHelper.xdmToBytes(destination));
+        validate(schFile, xmlFile, properties.get(PROCESSOR).newSerializer(outputStream));
     }
 
     public void validate(String schFile, String xmlFile, Destination destination)
@@ -64,8 +59,7 @@ public class SchematronValidator implements SchematronValidatorConfig {
                 XdmDestination destination = new XdmDestination();
                 schematronCompiler.compile(properties.get(FOLDER).resolve(file), destination);
 
-                xsltExecutables.put(file,
-                        xsltCompiler.compile(new StreamSource(SaxonHelper.xdmToInputStream(destination))));
+                xsltExecutables.put(file, xsltCompiler.compile(destination.getXdmNode().asSource()));
             } catch (SaxonApiException e) {
                 throw new SchematronException(e.getMessage(), e);
             }

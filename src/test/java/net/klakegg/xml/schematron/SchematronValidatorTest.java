@@ -19,5 +19,4 @@ public class SchematronValidatorTest {
                 "src/test/resources/Metadata.xml",
                 System.out);
     }
-
 }

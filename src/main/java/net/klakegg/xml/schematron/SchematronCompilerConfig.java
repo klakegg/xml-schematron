@@ -1,7 +1,6 @@
 package net.klakegg.xml.schematron;
 
 import net.klakegg.commons.builder.Property;
-import net.klakegg.xml.schematron.api.ResourceFolder;
 
 /**
  * @author erlend

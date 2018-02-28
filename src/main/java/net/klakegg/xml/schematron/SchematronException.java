@@ -1,4 +1,4 @@
-package net.klakegg.xml.schematron.lang;
+package net.klakegg.xml.schematron;
 
 /**
  * @author erlend
